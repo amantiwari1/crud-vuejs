@@ -1,5 +1,11 @@
 <template>
   <div class="container mx-auto space-y-10 p-5">
+    <loading
+      v-model:active="isLoading"
+      color="#059669"
+      :is-full-page="fullPage"
+    />
+
     <form
       class="
         flex flex-col
@@ -76,6 +82,8 @@
 <script>
 import UserCard from "./components/UserCard.vue";
 import axios from "axios";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 
 export default {
   name: "App",
@@ -85,11 +93,14 @@ export default {
       email: "",
       name: "",
       gender: "",
+      isLoading: true,
+      fullPage: true,
     };
   },
 
   components: {
     UserCard,
+    Loading,
   },
   mounted() {
     this.getLatestProduct();
@@ -97,6 +108,7 @@ export default {
   },
   methods: {
     async submitForm() {
+      this.isLoading = true;
       await axios
         .post("/user", {
           email: this.email,
@@ -109,28 +121,35 @@ export default {
           this.email = "";
           this.name = "";
           this.gender = "";
+          this.isLoading = false;
         })
         .catch((err) => {
+          this.isLoading = false;
           console.error(err);
         });
     },
 
     async deleteUser(id) {
+      this.isLoading = true;
       await axios
         .delete(`/user/${id}`)
         .then(() => {
+          this.isLoading = false;
           this.latestProducts = this.latestProducts.filter(
             (user) => user.ID !== id
           );
         })
         .catch((err) => {
+          this.isLoading = false;
           console.error(err);
         });
     },
     async updateUser(id, data) {
+      this.isLoading = true;
       await axios
         .put(`/user/${id}`, data)
         .then((res) => {
+          this.isLoading = false;
           const elementsIndex = this.latestProducts.findIndex(
             (arr) => arr.ID === res.data.ID
           );
@@ -140,6 +159,7 @@ export default {
           this.latestProducts = newArray;
         })
         .catch((err) => {
+          this.isLoading = false;
           console.error(err);
         });
     },
@@ -148,6 +168,7 @@ export default {
       await axios
         .get("/user")
         .then((res) => {
+          this.isLoading = false;
           this.latestProducts = res.data;
           console.log(res.data);
         })
