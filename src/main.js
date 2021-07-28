@@ -6,5 +6,5 @@ import axios from "axios"
 
 
 
-axios.defaults.baseURL = 'http://localhost:8800'
+axios.defaults.baseURL = 'https://damp-wave-81991.herokuapp.com'
 createApp(App).mount('#app')
