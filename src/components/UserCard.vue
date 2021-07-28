@@ -12,7 +12,7 @@
     <div
       class="border p-3 rounded-md max-w-sm mx-auto text-left shadow space-y-4"
     >
-      <div>
+      <div id="test-card-details">
         <p class="capitalize">{{ product.name }}</p>
         <p class="capitalize">{{ product.gender }}</p>
         <p>{{ product.email }}</p>

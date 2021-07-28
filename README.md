@@ -10,6 +10,11 @@ yarn install
 yarn serve
 ```
 
+### unit test  for development
+```
+yarn test:unit
+```
+
 ### Compiles and minifies for production
 ```
 yarn build
